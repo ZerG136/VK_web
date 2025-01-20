@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<h1>New Question</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="form-floating mt-2">
+        <button class="btn btn-custom p-3" type="submit">Post Question</button>
+    </div>
+</form>
+
+{% endblock %}

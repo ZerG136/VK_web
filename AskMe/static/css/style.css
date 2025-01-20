@@ -1,0 +1,25 @@
+.navbar-brand {
+    font-size: 30px; 
+}
+
+.custom-navbar {
+    background-color: #0848bf; 
+    color: white; /
+}
+.btn-custom {
+    background-color: #007bff; 
+    color: white; 
+}
+
+.btn-custom:hover {
+    background-color: #0056b3; 
+    color: white; 
+}
+
+.custom-navbar {
+    background-color: #343a40; 
+}
+
+.sep {
+    margin: 0 10px;
+}

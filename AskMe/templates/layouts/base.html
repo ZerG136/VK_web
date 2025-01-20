@@ -1,0 +1,95 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Index</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg custom-navbar " data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand ms-5" href="{% url 'index' %}">AskMe</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class=" collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="d-flex" role="search">
+          <input class="form-control ms-5" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-custom ms-3" type="submit">Search</button>
+        </form>
+        <form class="d-flex p-2" action="{% url 'ask' %}">
+          <button class="btn btn-custom ms-5">ASK!</button>
+        </form>
+      </div>
+      <nav class="navbar bg-body-tertiary p-2">
+        <div class="d-flex gap-3 align-items-center pe-4">
+          {% if user.is_authenticated %}
+          {% if user_profile.avatar %}
+            <img src="{{ user_profile.avatar.url }}" alt="Profile pic" class="img-fluid" width="80" height="80">
+          {% else %}
+            <img src="/media/person-circle.svg" alt="Profile pic" class="img-fluid" width="80" height="80">
+          {% endif %}
+          <div>
+            <div>
+              <h4>{{ user_profile.user.username }}</h4>
+            </div>
+            <a href="{% url 'settings' %}" class="text-primary ">Settings</a>
+            <span class="sep"></span>
+            <a href="{% url 'logout' %}" class="text-primary">Log out</a>
+          </div>
+          {% else %}
+            <a href="{% url 'login' %}" class="text-primary">Log in</a>
+            <span class="sep"></span>
+            <a href="{% url 'signup' %}" class="text-primary">Sign up</a>
+          {% endif %}
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+  <main class="container align-items-center p-2 content">
+    {% block header %}
+      {% endblock %}
+      <section class="container row mb-3 p-3">
+        <div class="col-9 p-3 gap-3">
+          {% block content %}
+          {% endblock %}
+        </div>
+        <div class="col p-2">
+          <section class="mb-4">
+            <h1>Popular tags</h1>
+            <div>
+              {% for tag in tags %}
+                <a href="{% url 'tag' tag %}"><span class="badge bg-primary">{{ tag.name }}</span></a>
+              {% endfor %}
+            </div>
+          </section>
+          <section>
+            <h1 class="mb-3">Best members</h1>
+            <ul class="list-group-item">
+              {% for member in members %}
+              <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                <p style="all: unset;">{{ member }}</p>
+              </li>
+              {% endfor %}
+            </ul>
+          </section>
+        </div>
+      </section>
+  </main>
+
+  <footer class="bg-body-tertiary text-center text-lg-start">
+    <div class=" custom-navbartext-center p-3 ">
+      <a class="text-body" href="https://github.com/ZerG136">Zernov Georgii</a>
+    </div>
+  </footer>
+
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+
+</html>

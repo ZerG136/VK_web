@@ -1,0 +1,19 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<div class="col-12 col-md-8">
+    <div class="d-flex flex-column gap-3">
+        <h1>Sign up</h1>
+
+        <form method="POST" action="{% url 'signup' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-custom mt-3 p-3" type="submit">Register</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

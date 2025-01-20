@@ -1,0 +1,62 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="question-details">
+        {% include 'layouts/question_card.html' %}
+    </div>
+    <div class="answers mt-5">
+        <h3>Answers:</h3>
+        {% if page_obj.object_list %}
+            {% for answer in page_obj.object_list %}
+                <div class="answer mt-3">
+                    {% include 'layouts/question_answers.html' %}
+                </div>
+            {% endfor %}
+            <div class="add-answer-form mt-4">
+                <h4>Your Answer:</h4>
+                <form method="post" action="{% url 'one_question' question.id %}" id="answer-form">
+                    {% csrf_token %}
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            {{ form.text }}
+                            {% if form.text.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.text.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;">Add Answer</button>
+                </form>
+            </div>
+            {% include 'layouts/pagination.html' %}
+        {% else %}
+            <p>No answers yet.</p>
+            <div class="add-answer-form mt-4">
+                <h4>Your Answer:</h4>
+                <form method="post" action="{% url 'one_question' question.id %}" id="answer-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Answer</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        window.RATE_ANSWER_URL = "{% url 'rate_answer' %}";
+        window.RATE_URL = "{% url 'rate_question' %}";
+        window.MARK_ANSWER_URL = "{% url 'mark_answer' %}";
+        window.CSRF_TOKEN = "{{ csrf_token }}";
+        window.user_is_authenticated = "{{ user.is_authenticated }}";
+        window.questionID = "{{ question.id }}"
+        window.LIKED_IMG = '{% static "images/hand-thumbs-up-fill.svg" %}';
+        window.DISLIKED_IMG = '{% static "images/hand-thumbs-down-fill.svg" %}';
+        window.LIKE_IMG = '{% static "images/hand-thumbs-up.svg" %}';
+        window.DISLIKE_IMG = '{% static "images/hand-thumbs-down.svg" %}';
+      </script>
+      
+      <script src="{% static 'js/answers.js' %}"></script>
+{% endblock %}
